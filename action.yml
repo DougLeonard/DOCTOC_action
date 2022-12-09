@@ -1,0 +1,36 @@
+name: 'DOCTOC Action'
+description: 'Apply DOCTOC to whole filetree'
+runs:
+  using: "composite"
+  steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18'
+
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: npm-${{ hashFiles('package-lock.json') }}
+          restore-keys: npm-
+
+      - name: Install dependencies
+        shell: bash
+        run: |
+           npm install -g doctoc
+#           cd ${{github.action_path}}
+#           npm ci
+
+      - name: Run DODCTOC
+        shell: bash
+        run: |
+           doctoc .
+#           cd ${{github.workspace}}
+           
+      - name: Commit
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Auto update markdown TOC
