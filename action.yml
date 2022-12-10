@@ -10,25 +10,26 @@ runs:
         with:
           node-version: '18'
 
-      - name: Cache dependencies
-        uses: actions/cache@v2
-        with:
-          path: ~/.npm
-          key: npm-${{ hashFiles('package-lock.json') }}
-          restore-keys: npm-
+#   Removing this since it's not clear if it's even doing anything or helping
+#   Certainly it makes not meaningful improvement.
+#        - name: Cache dependencies
+#        uses: actions/cache@v2
+#        with:
+#          path: ~/${{github.action_path}}.npm
+#          key: npm-${{ hashFiles('package-lock.json') }}
+#          restore-keys: npm-
 
       - name: Install dependencies
         shell: bash
         run: |
-           npm install -g doctoc
-#           cd ${{github.action_path}}
-#           npm ci
+           cd ${{github.action_path}}
+           npm ci
 
       - name: Run DODCTOC
         shell: bash
         run: |
-           doctoc .
-#           cd ${{github.workspace}}
+           cd ${{github.workspace}}
+           ${{github.action_path}}/node_modules/.bin/doctoc .
            
       - name: Commit
         uses: stefanzweifel/git-auto-commit-action@v4
