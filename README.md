@@ -1,4 +1,4 @@
-# DOCTOC_action
+# DOCTOC_action TOC generator
 
 An auto table of contents generator action for github wikis and repos.
 
